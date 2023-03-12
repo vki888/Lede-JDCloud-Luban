@@ -25,6 +25,7 @@ sed -i '/Device\/adslr_g7/i\define Device\/jdcloud_luban\n  \$(Device\/dsa-migra
 echo '修补 02-network'
 sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,luban|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,luban)\n\t\tlocal index="$(find_mtd_index "config")"\n\t\tlocal label_mac=$(macaddr_canonicalize $(dd if="/dev/mtd${index}" bs=12 skip=17449 iflag=skip_bytes count=1 2>/dev/null))\n\t\t\[ "$PHYNBR" -eq 0 \] && echo $label_mac > /sys${DEVPATH}/macaddress\n\t\t\[ "$PHYNBR" -eq 1 \] && macaddr_add $label_mac 0x800000 > /sys${DEVPATH}/macaddress\n\t\t;;
 }' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+cat target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 # fix5.1
 echo '修补 system.sh 以正常读写 MAC'
