@@ -30,3 +30,7 @@ cat target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 # fix5.1
 echo '修补 system.sh 以正常读写 MAC'
 sed -i 's#key"'\''=//p'\''#& \| head -n1#' package/base-files/files/lib/functions/system.sh
+
+echo '定义kernel MD5，与官网一致'
+echo '2974fbe1fa59be88f13eb8abeac8c10b' > ./.vermagic
+cat .vermagic
