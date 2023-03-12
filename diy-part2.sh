@@ -37,3 +37,6 @@ sed -i 's#key"'\''=//p'\''#& \| head -n1#' package/base-files/files/lib/function
 echo '定义kernel MD5，与官网一致'
 echo '2974fbe1fa59be88f13eb8abeac8c10b' > ./.vermagic
 cat .vermagic
+
+sed 's/^\tgrep.*vermagic/\tcp -f \$(TOPDIR)\/\.vermagic \$(LINUX_DIR)\/\.vermagic/g' include/kernel-defaults.mk
+cat include/kernel-defaults.mk
