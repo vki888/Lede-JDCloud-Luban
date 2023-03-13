@@ -13,6 +13,15 @@
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.68.1/g' package/base-files/files/bin/config_generate
 
+echo '修改时区为东八区'
+sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='Asia\/Shanghai'/g" package/base-files/files/bin/config_generate
+
+echo '修改主机名为 JDC_Luban'
+sed -i 's/OpenWrt/JDC_Luban/g' package/base-files/files/bin/config_generate
+
+# 更换腾讯源
+sed -i 's#downloads.openwrt.org#mirrors.cloud.tencent.com/openwrt#g' /etc/opkg/distfeeds.conf
+
 echo '载入 mt7621_jdcloud_luban.dts'
 curl --retry 3 -s --globoff "https://gist.githubusercontent.com/vki888/dffcf844d8ff693d8057e2f3fde545dc/raw/15a687f05745fe1e555d4706556acc59b363c7a1/%255Bopenwrt%255Dmt7621_jdcloud_luban.dts" -o target/linux/ramips/dts/mt7621_jdcloud_luban.dts
 ls -l target/linux/ramips/dts/mt7621_jdcloud_luban.dts
