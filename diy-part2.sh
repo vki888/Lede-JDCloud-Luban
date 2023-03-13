@@ -20,7 +20,7 @@ echo '修改主机名为 JDC_Luban'
 sed -i 's/OpenWrt/JDC_Luban/g' package/base-files/files/bin/config_generate
 
 # 更换腾讯源
-sed -i 's#downloads.openwrt.org#mirrors.cloud.tencent.com/openwrt#g' /etc/opkg/distfeeds.conf
+#sed -i 's#downloads.openwrt.org#mirrors.cloud.tencent.com/openwrt#g' /etc/opkg/distfeeds.conf
 
 echo '载入 mt7621_jdcloud_luban.dts'
 curl --retry 3 -s --globoff "https://gist.githubusercontent.com/vki888/dffcf844d8ff693d8057e2f3fde545dc/raw/15a687f05745fe1e555d4706556acc59b363c7a1/%255Bopenwrt%255Dmt7621_jdcloud_luban.dts" -o target/linux/ramips/dts/mt7621_jdcloud_luban.dts
