@@ -45,8 +45,10 @@ cat target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 #echo '修补 system.sh 以正常读写 MAC'
 #sed -i 's#key"'\''=//p'\''#& \| head -n1#' package/base-files/files/lib/functions/system.sh
 
+#借用lede的
 sed -i '/pcie: pcie@1e140000/i\hnat: hnat@1e100000 {\n\tcompatible = "mediatek,mtk-hnat_v1";\n\text-devices = "ra0", "rai0", "rax0",\n\t\t"apcli0", "apclii0","apclix0";\n\treg = <0x1e100000 0x3000>;\n\n\tresets = <&ethsys 0>;\n\treset-names = "mtketh";\n\n\tmtketh-wan = "wan";\n\tmtketh-ppd = "lan";\n\tmtketh-lan = "lan";\n\tmtketh-max-gmac = <1>;\n\tmtkdsa-wan-port = <4>;\n\t};\n\n'  ./target/linux/ramips/dts/mt7621.dtsi
 sed -i '/pcie: pcie@1e140000/i\gsw: gsw@1e110000 {\n\tcompatible = "mediatek,mt753x";\n\treg = <0x1e110000 0x8000>;\n\tinterrupt-parent = <&gic>;\n\tinterrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;\n\n\tmediatek,mcm;\n\tmediatek,mdio = <&mdio>;\n\tmt7530,direct-phy-access;\n\n\tresets = <&rstctrl 2>;\n\treset-names = "mcm";\n\tstatus = "disabled";\n\n\tport@5 {\n\n\tcompatible = "mediatek,mt753x-port";\n\treg = <5>;\n\tphy-mode = "rgmii";\n\tfixed-link {\n\tspeed = <1000>;\n\tfull-duplex;\n\t};\n\t};\n\n\tport@6 {\n\tcompatible = "mediatek,mt753x-port";\n\treg = <6>;\n\tphy-mode = "rgmii";\n\n\tfixed-link {\n\tspeed = <1000>;\n\tfull-duplex;\n\t};\n\t};\n\t};\n\t'  ./target/linux/ramips/dts/mt7621.dtsi
+sed -i '/ethernet: ethernet@1e100000 {/i\ethsys: ethsys@1e000000 {\n\tcompatible = "mediatek,mt7621-ethsys",\n\t\t"syscon";\n\treg = <0x1e000000 0x1000>;\n\t#clock-cells = <1>;\n\t};\n\n'  ./target/linux/ramips/dts/mt7621.dtsi	
 
 echo '定义kernel MD5，与官网一致'
 echo '2974fbe1fa59be88f13eb8abeac8c10b' > ./.vermagic
