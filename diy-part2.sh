@@ -33,7 +33,7 @@ grep all5002 -5 package/boot/uboot-envtools/files/ramips
 
 echo '载入 mt7621_jdcloud_re-cp-02.dts'
 curl --retry 3 -s --globoff "https://gist.githubusercontent.com/vki888/d8b14a25d8ac1841d54549c9bb21c698/raw/7f71db8791ecd46d6d7368481d9a4a90e28cea63/%255Bopenwrt%255Dmt7621_jdcloud_re-cp-02.dts" -o target/linux/ramips/dts/mt7621_jdcloud_re-cp-02.dts
-ls -l target/linux/ramips/dts/mt7621_jdcloud_re-cp-02.dts
+cat target/linux/ramips/dts/mt7621_jdcloud_re-cp-02.dts
 
 # fix2 + fix4.2
 echo '修补 mt7621.mk'
