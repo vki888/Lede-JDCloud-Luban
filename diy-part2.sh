@@ -22,6 +22,8 @@ sed -i 's/OpenWrt/JDC_Luban/g' package/base-files/files/bin/config_generate
 # 更换腾讯源
 #sed -i 's#downloads.openwrt.org#mirrors.cloud.tencent.com/openwrt#g' /etc/opkg/distfeeds.conf
 
+sed -i 's/yuncore,ax820/jdcloud,luban/g' package/boot/uboot-envtools/files/ramips
+
 echo '载入 mt7621_jdcloud_luban.dts'
 curl --retry 3 -s --globoff "https://gist.githubusercontent.com/vki888/dffcf844d8ff693d8057e2f3fde545dc/raw/d70631ed78e9f35270d2f41ad66eaae3bda51e2d/%255Bopenwrt%255Dmt7621_jdcloud_luban.dts" -o target/linux/ramips/dts/mt7621_jdcloud_luban.dts
 ls -l target/linux/ramips/dts/mt7621_jdcloud_luban.dts
@@ -32,13 +34,18 @@ sed -i '/Device\/adslr_g7/i\define Device\/jdcloud_luban\n  \$(Device\/dsa-migra
 
 # fix3 + fix5.2
 echo '修补 02-network'
+sed -i '/hiwifi,hc5962|\\/i\jdcloud,luban|\\' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+
+#失败的配置，备份
 #sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,luban|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,luban)\n\t\t[ "$PHYNBR" -eq 0 \] && echo $label_mac > /sys${DEVPATH}/macaddress\n\t\t\[ "$PHYNBR" -eq 1 \] && macaddr_add $label_mac 0x800000 > /sys${DEVPATH}/macaddress\n\t\t;;
 #}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
+#失败的配置，备份
 sed -i '/ampedwireless,ally-00x19k|\\/i\jdcloud,luban)\n\t\tucidef_add_switch "switch0" \\ \n\t\t"0:lan" "1:lan" "2:lan" "3:lan" "4:wan" "6u@eth0" "5u@eth1"\n\t\t;;' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 #sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,luban|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,luban)\n\t\techo "dc:d8:7c:50:fa:ae" > /sys/devices/platform/1e100000.ethernet/net/eth0/address\n\t\techo "dc:d8:7c:50:fa:af" > /sys/devices/platform/1e100000.ethernet/net/eth1/address\n\t\t;;
 #}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+
 cat target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 # fix5.1
