@@ -34,7 +34,7 @@ sed -i '/Device\/adslr_g7/i\define Device\/jdcloud_re-cp-02\n  \$(Device\/dsa-mi
 
 # fix3 + fix5.2
 echo '修补 02-network'
-sed -i '/ramips_setup_interfaces/,/}/{/hiwifi,hc5962|\\/i\jdcloud,re-cp-02|\\}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+sed -i '/gehua,ghl-r-001|\\/i\jdcloud,re-cp-02|\\}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 #失败的配置，备份
 #sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,re-cp-02|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,re-cp-02)\n\t\t[ "$PHYNBR" -eq 0 \] && echo $label_mac > /sys${DEVPATH}/macaddress\n\t\t\[ "$PHYNBR" -eq 1 \] && macaddr_add $label_mac 0x800000 > /sys${DEVPATH}/macaddress\n\t\t;;
