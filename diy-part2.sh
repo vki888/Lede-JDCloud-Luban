@@ -10,15 +10,15 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
-echo "Modify default IP"
+echo "-----------------Modify default IP"
 sed -i 's/192.168.1.1/192.168.68.1/g' package/base-files/files/bin/config_generate
 grep  192 -n3 package/base-files/files/bin/config_generate
 
-echo '修改时区为东八区'
+echo '-----------------修改时区为东八区'
 sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='Asia\/Shanghai'/g" package/base-files/files/bin/config_generate
 
 
-echo '修改主机名为 Luban'
+echo '-----------------修改主机名为 Luban'
 sed -i 's/OpenWrt/Luban/g' package/base-files/files/bin/config_generate
 
 grep timezone -n5 package/base-files/files/bin/config_generate
@@ -26,22 +26,23 @@ grep timezone -n5 package/base-files/files/bin/config_generate
 # 更换腾讯源
 #sed -i 's#downloads.openwrt.org#mirrors.cloud.tencent.com/openwrt#g' /etc/opkg/distfeeds.conf
 
-echo "修改u-boot的ramips"
+echo "-----------------修改u-boot的ramips"
 sed -i 's/yuncore,ax820/jdcloud,re-cp-02/g' package/boot/uboot-envtools/files/ramips
 
 grep all5002 -n5 package/boot/uboot-envtools/files/ramips
 
-echo '载入 mt7621_jdcloud_re-cp-02.dts'
+echo '-----------------载入 mt7621_jdcloud_re-cp-02.dts'
 curl --retry 3 -s --globoff "https://gist.githubusercontent.com/vki888/d8b14a25d8ac1841d54549c9bb21c698/raw/7f71db8791ecd46d6d7368481d9a4a90e28cea63/%255Bopenwrt%255Dmt7621_jdcloud_re-cp-02.dts" -o target/linux/ramips/dts/mt7621_jdcloud_re-cp-02.dts
 cat target/linux/ramips/dts/mt7621_jdcloud_re-cp-02.dts
 
 # fix2 + fix4.2
-echo '修补 mt7621.mk'
+echo '-----------------修补 mt7621.mk'
+grep adslr_g7 -n10 target/linux/ramips/image/mt7621.mk
 sed -i '/Device\/adslr_g7/i\define Device\/jdcloud_re-cp-02\n  \$(Device\/dsa-migration)\n  \$(Device\/uimage-lzma-loader)\n  IMAGE_SIZE := 15808k\n  DEVICE_VENDOR := JDCloud\n  DEVICE_MODEL := re-cp-02\n  DEVICE_PACKAGES := kmod-fs-ext4 kmod-mt7915e kmod-sdhci-mt7620 kmod-usb3 uboot-envtools kmod-mmc wpad-openssl\nendef\nTARGET_DEVICES += jdcloud_re-cp-02\n\n' target/linux/ramips/image/mt7621.mk
 grep adslr_g7 -n10 target/linux/ramips/image/mt7621.mk
 
 # fix3 + fix5.2
-echo '修补 02-network'
+echo '-----------------修补 02-network'
 sed -i '/gehua,ghl-r-001|\\/i\jdcloud,re-cp-02|\\}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 grep ghl-r-001 -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
@@ -66,7 +67,7 @@ cat target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 #sed -i '/pcie: pcie@1e140000/i\gsw: gsw@1e110000 {\n\tcompatible = "mediatek,mt753x";\n\treg = <0x1e110000 0x8000>;\n\tinterrupt-parent = <&gic>;\n\tinterrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;\n\n\tmediatek,mcm;\n\tmediatek,mdio = <&mdio>;\n\tmt7530,direct-phy-access;\n\n\tresets = <&rstctrl 2>;\n\treset-names = "mcm";\n\tstatus = "disabled";\n\n\tport@5 {\n\n\tcompatible = "mediatek,mt753x-port";\n\treg = <5>;\n\tphy-mode = "rgmii";\n\tfixed-link {\n\tspeed = <1000>;\n\tfull-duplex;\n\t};\n\t};\n\n\tport@6 {\n\tcompatible = "mediatek,mt753x-port";\n\treg = <6>;\n\tphy-mode = "rgmii";\n\n\tfixed-link {\n\tspeed = <1000>;\n\tfull-duplex;\n\t};\n\t};\n\t};\n\t'  ./target/linux/ramips/dts/mt7621.dtsi
 #sed -i '/ethernet: ethernet@1e100000 {/i\ethsys: ethsys@1e000000 {\n\tcompatible = "mediatek,mt7621-ethsys",\n\t\t"syscon";\n\treg = <0x1e000000 0x1000>;\n\t#clock-cells = <1>;\n\t};\n\n'  ./target/linux/ramips/dts/mt7621.dtsi	
 
-echo '定义kernel MD5，与官网一致'
+echo '-----------------定义kernel MD5，与官网一致'
 echo '2974fbe1fa59be88f13eb8abeac8c10b' > ./.vermagic
 cat .vermagic
 
