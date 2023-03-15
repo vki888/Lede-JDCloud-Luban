@@ -12,7 +12,7 @@
 
 echo "Modify default IP"
 sed -i 's/192.168.1.1/192.168.68.1/g' package/base-files/files/bin/config_generate
-grep  192 -3 package/base-files/files/bin/config_generate
+grep  192 -n3 package/base-files/files/bin/config_generate
 
 echo '修改时区为东八区'
 sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='Asia\/Shanghai'/g" package/base-files/files/bin/config_generate
@@ -21,7 +21,7 @@ sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='Asia\/Shanghai
 echo '修改主机名为 Luban'
 sed -i 's/OpenWrt/Luban/g' package/base-files/files/bin/config_generate
 
-grep timezone -5 package/base-files/files/bin/config_generate
+grep timezone -n5 package/base-files/files/bin/config_generate
 
 # 更换腾讯源
 #sed -i 's#downloads.openwrt.org#mirrors.cloud.tencent.com/openwrt#g' /etc/opkg/distfeeds.conf
@@ -29,7 +29,7 @@ grep timezone -5 package/base-files/files/bin/config_generate
 echo "修改u-boot的ramips"
 sed -i 's/yuncore,ax820/jdcloud,re-cp-02/g' package/boot/uboot-envtools/files/ramips
 
-grep all5002 -5 package/boot/uboot-envtools/files/ramips
+grep all5002 -n5 package/boot/uboot-envtools/files/ramips
 
 echo '载入 mt7621_jdcloud_re-cp-02.dts'
 curl --retry 3 -s --globoff "https://gist.githubusercontent.com/vki888/d8b14a25d8ac1841d54549c9bb21c698/raw/7f71db8791ecd46d6d7368481d9a4a90e28cea63/%255Bopenwrt%255Dmt7621_jdcloud_re-cp-02.dts" -o target/linux/ramips/dts/mt7621_jdcloud_re-cp-02.dts
@@ -38,12 +38,12 @@ cat target/linux/ramips/dts/mt7621_jdcloud_re-cp-02.dts
 # fix2 + fix4.2
 echo '修补 mt7621.mk'
 sed -i '/Device\/adslr_g7/i\define Device\/jdcloud_re-cp-02\n  \$(Device\/dsa-migration)\n  \$(Device\/uimage-lzma-loader)\n  IMAGE_SIZE := 15808k\n  DEVICE_VENDOR := JDCloud\n  DEVICE_MODEL := re-cp-02\n  DEVICE_PACKAGES := kmod-fs-ext4 kmod-mt7915e kmod-sdhci-mt7620 kmod-usb3 uboot-envtools kmod-mmc wpad-openssl\nendef\nTARGET_DEVICES += jdcloud_re-cp-02\n\n' target/linux/ramips/image/mt7621.mk
-grep adslr_g7 -10 target/linux/ramips/image/mt7621.mk
+grep adslr_g7 -n10 target/linux/ramips/image/mt7621.mk
 
 # fix3 + fix5.2
 echo '修补 02-network'
 sed -i '/gehua,ghl-r-001|\\/i\jdcloud,re-cp-02|\\}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-grep ghl-r-001 -3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+grep ghl-r-001 -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 #失败的配置，备份
 #sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,re-cp-02|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,re-cp-02)\n\t\t[ "$PHYNBR" -eq 0 \] && echo $label_mac > /sys${DEVPATH}/macaddress\n\t\t\[ "$PHYNBR" -eq 1 \] && macaddr_add $label_mac 0x800000 > /sys${DEVPATH}/macaddress\n\t\t;;
