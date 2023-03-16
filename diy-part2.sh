@@ -56,7 +56,7 @@ grep xiaoyu,xy-c5 -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_netwo
 #sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,luban|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,luban)\n\t\techo "dc:d8:7c:50:fa:ae" > /sys/devices/platform/1e100000.ethernet/net/eth0/address\n\t\techo "dc:d8:7c:50:fa:af" > /sys/devices/platform/1e100000.ethernet/net/eth1/address\n\t\t;;
 #}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
-cat target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+#cat target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 # fix5.1
 #echo '修补 system.sh 以正常读写 MAC'
