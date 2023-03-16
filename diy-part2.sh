@@ -43,8 +43,8 @@ grep adslr_g7 -n10 target/linux/ramips/image/mt7621.mk
 
 # fix3 + fix5.2
 echo '-----------------修补 02-network'
-sed -i '/xiaoyu,xy-c5/i\jdcloud,luban|\\}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-grep xiaoyu,xy-c5 -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+sed -i '/xiaomi,mi-router-3-pro/i\jdcloud,luban|\\' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+grep xiaomi,mi-router-3-pro -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 #失败的配置，备份
 #sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,luban|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,luban)\n\t\t[ "$PHYNBR" -eq 0 \] && echo $label_mac > /sys${DEVPATH}/macaddress\n\t\t\[ "$PHYNBR" -eq 1 \] && macaddr_add $label_mac 0x800000 > /sys${DEVPATH}/macaddress\n\t\t;;
