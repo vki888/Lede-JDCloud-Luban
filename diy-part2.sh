@@ -43,7 +43,7 @@ grep adslr_g7 -n10 target/linux/ramips/image/mt7621.mk
 
 # fix3 + fix5.2
 echo '-----------------修补 02-network'
-sed -i '/xiaoyu,xy-c5/i\jdcloud,luban|\\}' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+sed -i '/xiaoyu,xy-c5/i\jdcloud,luban|\\' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 grep xiaoyu,xy-c5 -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 #失败的配置，备份
