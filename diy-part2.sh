@@ -24,7 +24,13 @@ sed -i 's/OpenWrt/Luban/g' package/base-files/files/bin/config_generate
 grep timezone -n5 package/base-files/files/bin/config_generate
 
 # 更换腾讯源
-#sed -i 's#downloads.openwrt.org#mirrors.cloud.tencent.com/openwrt#g' /etc/opkg/distfeeds.conf
+
+echo "src/gz openwrt_core http://mirrors.cloud.tencent.com/lede/releases/22.03.3/targets/ramips/mt7621/packages" >> package/system/opkg/files/customfeeds.conf
+echo "src/gz openwrt_base http://mirrors.cloud.tencent.com/lede/releases/22.03.3/packages/mipsel_24kc/base" >> package/system/opkg/files/customfeeds.conf
+echo "src/gz openwrt_luci http://mirrors.cloud.tencent.com/lede/releases/22.03.3/packages/mipsel_24kc/luci" >> package/system/opkg/files/customfeeds.conf
+echo "src/gz openwrt_packages http://mirrors.cloud.tencent.com/lede/releases/22.03.3/packages/mipsel_24kc/packages" >> package/system/opkg/files/customfeeds.conf
+echo "src/gz openwrt_routing http://mirrors.cloud.tencent.com/lede/releases/22.03.3/packages/mipsel_24kc/routing" >> package/system/opkg/files/customfeeds.conf
+echo "src/gz openwrt_telephony http://mirrors.cloud.tencent.com/lede/releases/22.03.3/packages/mipsel_24kc/telephony" >> package/system/opkg/files/customfeeds.conf
 
 echo "-----------------修改u-boot的ramips"
 sed -i 's/yuncore,ax820/jdcloud,luban/g' package/boot/uboot-envtools/files/ramips
@@ -43,8 +49,8 @@ grep adslr_g7 -n10 target/linux/ramips/image/mt7621.mk
 
 # fix3 + fix5.2
 echo '-----------------修补 02-network'
-sed -i '/xiaomi,mi-router-3-pro/i\jdcloud,luban|\\' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-grep xiaomi,mi-router-3-pro -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+sed -i '/xiaoyu,xy-c5/i\jdcloud,luban|\\' target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+grep xiaoyu,xy-c5 -n3 target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 
 #失败的配置，备份
 #sed -i -e '/hiwifi,hc5962|\\/i\jdcloud,luban|\\' -e '/ramips_setup_macs/,/}/{/ampedwireless,ally-00x19k/i\jdcloud,luban)\n\t\t[ "$PHYNBR" -eq 0 \] && echo $label_mac > /sys${DEVPATH}/macaddress\n\t\t\[ "$PHYNBR" -eq 1 \] && macaddr_add $label_mac 0x800000 > /sys${DEVPATH}/macaddress\n\t\t;;
